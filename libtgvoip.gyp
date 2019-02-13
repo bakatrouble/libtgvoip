@@ -4,28 +4,127 @@
     'targets': [
       {
         'target_name': 'libtgvoip',
-        'type': 'static_library',
+        'type': 'shared_library',
         'dependencies': [],
         'defines': [
           'WEBRTC_APM_DEBUG_DUMP=0',
           'TGVOIP_USE_DESKTOP_DSP',
           'WEBRTC_NS_FLOAT',
+          'TGVOIP_USE_CALLBACK_AUDIO_IO',
+          'NOMINMAX',
+          '_USING_V110_SDK71_',
+          'TGVOIP_WINXP_COMPAT',
+          'WEBRTC_WIN',
         ],
         'variables': {
           'tgvoip_src_loc': '.',
           'official_build_target%': '',
-          'linux_path_opus_include%': '<(DEPTH)/../../../Libraries/opus/include',
+          'libs_loc': '<(DEPTH)/../../Libraries',
         },
         'include_dirs': [
           '<(tgvoip_src_loc)/webrtc_dsp',
-          '<(linux_path_opus_include)',
+          '<(libs_loc)/opus/include',
         ],
         'direct_dependent_settings': {
           'include_dirs': [
             '<(tgvoip_src_loc)',
           ],
         },
+        'libraries': [
+          '-lwinmm',
+          '-lws2_32',
+          '-lkernel32',
+          '-luser32',
+          '-lole32',
+          '-ladvapi32',
+          '-lgdi32',
+          '-lIphlpapi',
+          '-lCrypt32',
+          'opus.lib',
+          'libeay32.lib',
+          'ssleay32.lib',
+        ],
         'export_dependent_settings': [],
+        'msbuild_toolset': 'v141',
+        'msvs_cygwin_shell': 0,
+        'msvs_settings': {
+          'VCCLCompilerTool': {
+            'ProgramDataBaseFileName': '$(OutDir)\\$(ProjectName).pdb',
+            'DebugInformationFormat': '3',          # Program Database (/Zi)
+            'AdditionalOptions': [
+              '/MP',   # Enable multi process build.
+              '/EHsc', # Catch C++ exceptions only, extern C functions never throw a C++ exception.
+              '/wd4068', # Disable "warning C4068: unknown pragma"
+            ],
+            'TreatWChar_tAsBuiltInType': 'false',
+          },
+          'VCLinkerTool': {
+            'MinimumRequiredVersion': '5.01',
+            'ImageHasSafeExceptionHandlers': 'false',   # Disable /SAFESEH
+            'ModuleDefinitionFile': '<(tgvoip_src_loc)/libtgvoip.def',
+          },
+        },
+        'msvs_external_builder_build_cmd': [
+          'ninja.exe',
+          '-C',
+          '$(OutDir)',
+          '-k0',
+          '$(ProjectName)',
+        ],
+        'configurations': {
+          'Debug': {
+            'defines': [
+              '_DEBUG',
+            ],
+            'include_dirs': [
+              '<(libs_loc)/openssl/Debug/include',
+            ],
+            'library_dirs': [
+              '<(libs_loc)/opus/win32/VS2015/Win32/Debug',
+              '<(libs_loc)/openssl/Debug/lib',
+            ],
+            'msvs_settings': {
+              'VCCLCompilerTool': {
+                'Optimization': '0',                # Disabled (/Od)
+                'RuntimeLibrary': '1',              # Multi-threaded Debug (/MTd)
+                'RuntimeTypeInfo': 'true',
+              },
+              'VCLibrarianTool': {
+                'AdditionalOptions': [
+                  '/NODEFAULTLIB:LIBCMT'
+                ]
+              }
+            },
+          },
+          'Release': {
+            'defines': [
+              'NDEBUG',
+            ],
+            'include_dirs': [
+              '<(libs_loc)/openssl/Release/include',
+            ],
+            'library_dirs': [
+              '<(libs_loc)/opus/win32/VS2015/Win32/Release',
+              '<(libs_loc)/openssl/Release/lib',
+            ],
+            'msvs_settings': {
+              'VCCLCompilerTool': {
+                'Optimization': '2',                 # Maximize Speed (/O2)
+                'InlineFunctionExpansion': '2',      # Any suitable (/Ob2)
+                'EnableIntrinsicFunctions': 'true',  # Yes (/Oi)
+                'FavorSizeOrSpeed': '1',             # Favor fast code (/Ot)
+                'RuntimeLibrary': '0',               # Multi-threaded (/MT)
+                'EnableEnhancedInstructionSet': '2', # Streaming SIMD Extensions 2 (/arch:SSE2)
+                'WholeProgramOptimization': 'true',  # /GL
+              },
+              'VCLibrarianTool': {
+                'AdditionalOptions': [
+                  '/LTCG',
+                ]
+              },
+            },
+          },
+        },
         'sources': [
           '<(tgvoip_src_loc)/BlockingQueue.cpp',
           '<(tgvoip_src_loc)/BlockingQueue.h',
@@ -72,6 +171,8 @@
           '<(tgvoip_src_loc)/video/VideoRenderer.h',
           '<(tgvoip_src_loc)/json11.cpp',
           '<(tgvoip_src_loc)/json11.hpp',
+          '<(tgvoip_src_loc)/audio/AudioIOCallback.cpp',
+          '<(tgvoip_src_loc)/audio/AudioIOCallback.h',
 
           # Windows
           '<(tgvoip_src_loc)/os/windows/NetworkSocketWinsock.cpp',
@@ -86,36 +187,6 @@
           '<(tgvoip_src_loc)/os/windows/AudioInputWASAPI.h',
           '<(tgvoip_src_loc)/os/windows/WindowsSpecific.cpp',
           '<(tgvoip_src_loc)/os/windows/WindowsSpecific.h',
-
-          # macOS
-          '<(tgvoip_src_loc)/os/darwin/AudioInputAudioUnit.cpp',
-          '<(tgvoip_src_loc)/os/darwin/AudioInputAudioUnit.h',
-          '<(tgvoip_src_loc)/os/darwin/AudioOutputAudioUnit.cpp',
-          '<(tgvoip_src_loc)/os/darwin/AudioOutputAudioUnit.h',
-          '<(tgvoip_src_loc)/os/darwin/AudioInputAudioUnitOSX.cpp',
-          '<(tgvoip_src_loc)/os/darwin/AudioInputAudioUnitOSX.h',
-          '<(tgvoip_src_loc)/os/darwin/AudioOutputAudioUnitOSX.cpp',
-          '<(tgvoip_src_loc)/os/darwin/AudioOutputAudioUnitOSX.h',
-          '<(tgvoip_src_loc)/os/darwin/AudioUnitIO.cpp',
-          '<(tgvoip_src_loc)/os/darwin/AudioUnitIO.h',
-          '<(tgvoip_src_loc)/os/darwin/DarwinSpecific.mm',
-          '<(tgvoip_src_loc)/os/darwin/DarwinSpecific.h',
-
-          # Linux
-          '<(tgvoip_src_loc)/os/linux/AudioInputALSA.cpp',
-          '<(tgvoip_src_loc)/os/linux/AudioInputALSA.h',
-          '<(tgvoip_src_loc)/os/linux/AudioOutputALSA.cpp',
-          '<(tgvoip_src_loc)/os/linux/AudioOutputALSA.h',
-          '<(tgvoip_src_loc)/os/linux/AudioOutputPulse.cpp',
-          '<(tgvoip_src_loc)/os/linux/AudioOutputPulse.h',
-          '<(tgvoip_src_loc)/os/linux/AudioInputPulse.cpp',
-          '<(tgvoip_src_loc)/os/linux/AudioInputPulse.h',
-          '<(tgvoip_src_loc)/os/linux/AudioPulse.cpp',
-          '<(tgvoip_src_loc)/os/linux/AudioPulse.h',
-
-          # POSIX
-          '<(tgvoip_src_loc)/os/posix/NetworkSocketPosix.cpp',
-          '<(tgvoip_src_loc)/os/posix/NetworkSocketPosix.h',
 
           # WebRTC APM
           '<(tgvoip_src_loc)/webrtc_dsp/system_wrappers/include/field_trial.h',
@@ -700,192 +771,8 @@
           '<(tgvoip_src_loc)/webrtc_dsp/common_audio/vad/vad_core.c',
           '<(tgvoip_src_loc)/webrtc_dsp/common_audio/vad/vad_sp.h',
           '<(tgvoip_src_loc)/webrtc_dsp/common_audio/vad/vad_filterbank.h',
-          '<(tgvoip_src_loc)/webrtc_dsp/common_audio/vad/vad_gmm.c', 
-
-          # ARM/NEON sources
-          # TODO check if there's a good way to make these compile with ARM ports of TDesktop
-          #'<(tgvoip_src_loc)/webrtc_dsp/modules/audio_processing/ns/nsx_core_neon.c',
-          #'<(tgvoip_src_loc)/webrtc_dsp/modules/audio_processing/aec/aec_core_neon.cc',
-          #'<(tgvoip_src_loc)/webrtc_dsp/modules/audio_processing/aecm/aecm_core_neon.cc',
-          #'<(tgvoip_src_loc)/webrtc_dsp/modules/audio_processing/utility/ooura_fft_tables_neon_sse2.h',
-          #'<(tgvoip_src_loc)/webrtc_dsp/modules/audio_processing/utility/ooura_fft_neon.cc',
-          #'<(tgvoip_src_loc)/webrtc_dsp/common_audio/fir_filter_neon.cc',
-          #'<(tgvoip_src_loc)/webrtc_dsp/common_audio/resampler/sinc_resampler_neon.cc',
-          #'<(tgvoip_src_loc)/webrtc_dsp/common_audio/third_party/spl_sqrt_floor/spl_sqrt_floor_arm.S',
-          #'<(tgvoip_src_loc)/webrtc_dsp/common_audio/fir_filter_neon.h',
-          #'<(tgvoip_src_loc)/webrtc_dsp/common_audio/signal_processing/downsample_fast_neon.c',
-          #'<(tgvoip_src_loc)/webrtc_dsp/common_audio/signal_processing/complex_bit_reverse_arm.S',
-          #'<(tgvoip_src_loc)/webrtc_dsp/common_audio/signal_processing/include/spl_inl_armv7.h',
-          #'<(tgvoip_src_loc)/webrtc_dsp/common_audio/signal_processing/min_max_operations_neon.c',
-          #'<(tgvoip_src_loc)/webrtc_dsp/common_audio/signal_processing/cross_correlation_neon.c',
-          #'<(tgvoip_src_loc)/webrtc_dsp/common_audio/signal_processing/filter_ar_fast_q12_armv7.S',
-
-
-        ],
-        'libraries': [],
-        'configurations': {
-          'Debug': {},
-          'Release': {},
-        },
-        'conditions': [
-          [
-            '"<(OS)" != "win"', {
-              'sources/': [['exclude', '<(tgvoip_src_loc)/os/windows/']],
-            }, {
-              'sources/': [['exclude', '<(tgvoip_src_loc)/os/posix/']],
-            },
-          ],
-          [
-            '"<(OS)" != "mac"', {
-              'sources/': [['exclude', '<(tgvoip_src_loc)/os/darwin/']],
-            },
-          ],
-          [
-            '"<(OS)" != "linux"', {
-              'sources/': [['exclude', '<(tgvoip_src_loc)/os/linux/']],
-            },
-          ],
-          [
-            '"<(OS)" == "mac"', {
-              'xcode_settings': {
-                'CLANG_CXX_LANGUAGE_STANDARD': 'c++11',
-                'ALWAYS_SEARCH_USER_PATHS': 'NO',
-              },
-              'defines': [
-                'WEBRTC_POSIX',
-                'WEBRTC_MAC',
-                'TARGET_OS_OSX',
-              ],
-              'sources': [
-                '<(tgvoip_src_loc)/webrtc_dsp/rtc_base/logging_mac.mm',
-                '<(tgvoip_src_loc)/webrtc_dsp/rtc_base/logging_mac.h',
-              ],
-              'conditions': [
-                [ '"<(official_build_target)" == "mac32"', {
-                  'xcode_settings': {
-                    'MACOSX_DEPLOYMENT_TARGET': '10.6',
-                    'OTHER_CPLUSPLUSFLAGS': [ '-nostdinc++' ],
-                  },
-                  'include_dirs': [
-                    '/usr/local/macold/include/c++/v1',
-                    '<(DEPTH)/../../../Libraries/macold/openssl/include',
-                  ],
-                }, {
-                  'xcode_settings': {
-                    'MACOSX_DEPLOYMENT_TARGET': '10.8',
-                    'CLANG_CXX_LIBRARY': 'libc++',
-                  },
-                  'include_dirs': [
-                    '<(DEPTH)/../../../Libraries/openssl/include',
-                  ],
-                }]
-              ]
-            },
-          ],
-          [
-            '"<(OS)" == "win"', {
-              'msbuild_toolset': 'v141',
-              'defines': [
-                'NOMINMAX',
-                '_USING_V110_SDK71_',
-                'TGVOIP_WINXP_COMPAT',
-                'WEBRTC_WIN',
-              ],
-              'libraries': [
-                'winmm',
-                'ws2_32',
-                'kernel32',
-                'user32',
-              ],
-              'msvs_cygwin_shell': 0,
-              'msvs_settings': {
-                'VCCLCompilerTool': {
-                  'ProgramDataBaseFileName': '$(OutDir)\\$(ProjectName).pdb',
-                  'DebugInformationFormat': '3',          # Program Database (/Zi)
-                  'AdditionalOptions': [
-                    '/MP',   # Enable multi process build.
-                    '/EHsc', # Catch C++ exceptions only, extern C functions never throw a C++ exception.
-                    '/wd4068', # Disable "warning C4068: unknown pragma"
-                  ],
-                  'TreatWChar_tAsBuiltInType': 'false',
-                },
-              },
-              'msvs_external_builder_build_cmd': [
-                'ninja.exe',
-                '-C',
-                '$(OutDir)',
-                '-k0',
-                '$(ProjectName)',
-              ],
-              'configurations': {
-                'Debug': {
-                  'defines': [
-                    '_DEBUG',
-                  ],
-                  'include_dirs': [
-                    '<(DEPTH)/../../../Libraries/openssl/Debug/include',
-                  ],
-                  'msvs_settings': {
-                    'VCCLCompilerTool': {
-                      'Optimization': '0',                # Disabled (/Od)
-                      'RuntimeLibrary': '1',              # Multi-threaded Debug (/MTd)
-                      'RuntimeTypeInfo': 'true',
-                    },
-                    'VCLibrarianTool': {
-                      'AdditionalOptions': [
-                        '/NODEFAULTLIB:LIBCMT'
-                      ]
-                    }
-                  },
-                },
-                'Release': {
-                  'defines': [
-                    'NDEBUG',
-                  ],
-                  'include_dirs': [
-                     '<(DEPTH)/../../../Libraries/openssl/Release/include',
-                  ],
-                  'msvs_settings': {
-                    'VCCLCompilerTool': {
-                      'Optimization': '2',                 # Maximize Speed (/O2)
-                      'InlineFunctionExpansion': '2',      # Any suitable (/Ob2)
-                      'EnableIntrinsicFunctions': 'true',  # Yes (/Oi)
-                      'FavorSizeOrSpeed': '1',             # Favor fast code (/Ot)
-                      'RuntimeLibrary': '0',               # Multi-threaded (/MT)
-                      'EnableEnhancedInstructionSet': '2', # Streaming SIMD Extensions 2 (/arch:SSE2)
-                      'WholeProgramOptimization': 'true',  # /GL
-                    },
-                    'VCLibrarianTool': {
-                      'AdditionalOptions': [
-                        '/LTCG',
-                      ]
-                    },
-                  },
-                },
-              },
-            },
-          ],
-          [
-            '"<(OS)" == "linux"', {
-              'defines': [
-                'WEBRTC_POSIX',
-                'WEBRTC_LINUX',
-              ],
-              'conditions': [
-                [ '"<!(uname -m)" == "i686"', {
-                  'cflags_cc': [
-                    '-msse2',
-                  ],
-                }]
-              ],
-              'direct_dependent_settings': {
-                'libraries': [
-
-                ],
-              },
-            },
-          ],
+          '<(tgvoip_src_loc)/webrtc_dsp/common_audio/vad/vad_gmm.c',
         ],
       },
     ],
-  }
+}

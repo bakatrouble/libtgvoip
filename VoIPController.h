@@ -113,7 +113,7 @@ namespace tgvoip{
 		std::string countryCode;
 	};
 
-	class Endpoint{
+	class __declspec(dllexport) Endpoint{
 		friend class VoIPController;
 		friend class VoIPGroupController;
 	public:
@@ -153,11 +153,11 @@ namespace tgvoip{
 		std::string displayName;
 	};
 
-	class AudioOutputDevice : public AudioDevice{
+	class __declspec(dllexport) AudioOutputDevice : public AudioDevice{
 
 	};
 
-	class AudioInputDevice : public AudioDevice{
+	class __declspec(dllexport) AudioInputDevice : public AudioDevice{
 	
 	};
 	
@@ -178,7 +178,7 @@ namespace tgvoip{
 		std::string deviceID;
 	};
 
-	class VoIPController{
+	class __declspec(dllexport) VoIPController{
 		friend class VoIPGroupController;
 	public:
 		TGVOIP_DISALLOW_COPY_AND_ASSIGN(VoIPController);

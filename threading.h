@@ -191,7 +191,7 @@ private:
 #include <assert.h>
 
 namespace tgvoip{
-	class Mutex{
+	class __declspec(dllexport) Mutex{
 	public:
 		Mutex(){
 #if !defined(WINAPI_FAMILY) || WINAPI_FAMILY!=WINAPI_FAMILY_PHONE_APP
@@ -338,7 +338,7 @@ private:
 #endif
 
 namespace tgvoip{
-class MutexGuard{
+class __declspec(dllexport) MutexGuard{
 public:
     MutexGuard(Mutex &mutex) : mutex(mutex) {
 		mutex.Lock();

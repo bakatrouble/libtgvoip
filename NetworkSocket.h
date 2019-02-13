@@ -34,7 +34,7 @@ namespace tgvoip {
 		virtual bool PrefixMatches(const unsigned int prefix, const NetworkAddress& other) const =0;
 	};
 
-	class IPv4Address : public NetworkAddress{
+	class __declspec(dllexport) IPv4Address : public NetworkAddress{
 	public:
 		IPv4Address(std::string addr);
 		IPv4Address(uint32_t addr);
@@ -51,7 +51,7 @@ namespace tgvoip {
 		uint32_t address;
 	};
 
-	class IPv6Address : public NetworkAddress{
+	class __declspec(dllexport) IPv6Address : public NetworkAddress{
 	public:
 		IPv6Address(std::string addr);
 		IPv6Address(const uint8_t* addr);

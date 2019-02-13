@@ -15,7 +15,7 @@
 
 namespace tgvoip{
 
-class ServerConfig{
+class __declspec(dllexport) ServerConfig{
 public:
 	ServerConfig();
 	~ServerConfig();
