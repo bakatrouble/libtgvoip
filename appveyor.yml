@@ -1,25 +1,37 @@
 version: 0.0.{build}
+
 branches:
   only:
     - msvc_static
+
 skip_tags: true
 max_jobs: 1
+
 image: Visual Studio 2017
+platform: x86
+configuration: Release
+
 clone_folder: c:\projects\libtgvoip
 shallow_clone: true
+
 cache:
   - ../opus
   - ../openssl
   - ../build_deps
-configuration: Release
-platform: x86
+  -
+init:
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
+#   - if "%PLATFORM%"=="x64" call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+
 build_script:
   - cmd: build_scripts/01-openssl.bat
   - cmd: build_scripts/02-opus.bat
   - sh build_scripts/03-prepare-build-deps.sh
   - cmd: build_scripts/04-build.bat
+
 after_build:
   - 7z a libtgvoip.dll.zip out/Release/libtgvoip.dll out/Release/libtgvoip.dll.lib
+
 artifacts:
   - path: libtgvoip.dll.zip
     name: libtgvoip.dll
