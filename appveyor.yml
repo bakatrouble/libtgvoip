@@ -11,6 +11,7 @@ cache:
   - opus
   - openssl
 configuration: Release
-platform: [x86, x64]
+platform: x86
 build_script:
-  - sh win_build.sh
+  - sh build_scripts/01-openssl.sh
+  - cmd: build_scripts/02-opus.bat
