@@ -15,10 +15,10 @@ clone_folder: c:\projects\libtgvoip
 shallow_clone: true
 
 cache:
-  - ../opus
-  - ../openssl
-  - ../build_deps
-  -
+  - ../openssl -> build_scripts/01-openssl.bat
+  - ../opus -> build_scripts/02-opus.bat
+  - ../build_deps -> build_scripts/03-prepare-build-deps.bat
+
 init:
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
 #   - if "%PLATFORM%"=="x64" call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
