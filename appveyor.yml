@@ -1,0 +1,16 @@
+version: 0.0.{build}
+branches:
+  only:
+    - msvc_static
+skip_tags: true
+max_jobs: 1
+image: Visual Studio 2017
+clone_folder: c:\projects\libtgvoip
+shallow_clone: true
+cache:
+  - opus
+  - openssl
+configuration: Release
+platform: [x86, x64]
+build_script:
+  - sh win_build.sh
