@@ -2,12 +2,18 @@ cd ..
 
 if exist "opus\win32\VS2015\Win32\Release\opus.lib" goto ALREADY_BUILT
 
+if "%PLATFORM%"=="x86" (
+    set BUILD_PLATFORM = Win32
+) else (
+    set BUILD_PLATFORM = Win64
+)
+
 echo Building Opus...
 git clone https://github.com/telegramdesktop/opus.git
 cd opus
 git checkout tdesktop
 cd win32\VS2015
-msbuild opus.sln /property:Configuration=Release /property:Platform="Win32"
+msbuild opus.sln /property:Configuration=Release /property:Platform="%BUILD_PLATFORM%"
 cd ..\..\..
 goto FINISH
 
