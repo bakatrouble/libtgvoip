@@ -18,6 +18,7 @@ else
     git clone https://chromium.googlesource.com/external/gyp _tmp
     mv _tmp/.git build_deps
     cd build_deps
+    git reset --hard
     git checkout a478c1ab51
     cd ..
 fi
