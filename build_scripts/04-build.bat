@@ -1,9 +1,7 @@
 set PROJECTS=c:\projects
 set BUILD_DEPS=%PROJECTS%\build_deps
-set PATH=%BUILD_DEPS%;%PATH%
-set PYTHON=c:\python27\python.exe
-set GYP="%PYTHON% %BUILD_DEPS%\gyp_main.py"
+set PATH=%BUILD_DEPS%;c:\python27;%PATH%
 
-%GYP% -D OS=win --depth=. --format ninja libtgvoip.gyp
-%GYP% -D OS=win --depth=. --format msvs-ninja libtgvoip.gyp
+gyp -D OS=win --depth=. --format ninja libtgvoip.gyp
+gyp -D OS=win --depth=. --format msvs-ninja libtgvoip.gyp
 ninja -C out/Release
