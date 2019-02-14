@@ -11,6 +11,7 @@ msbuild opus.sln /property:Configuration=Release /property:Platform="Win32"
 goto FINISH
 
 :ALREADY_BUILT
-echo "Opus is already built"
+echo Opus is already built
 
 :FINISH
+cd libtgvoip

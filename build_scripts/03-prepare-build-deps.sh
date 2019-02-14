@@ -21,3 +21,5 @@ else
     git checkout a478c1ab51
     cd ..
 fi
+
+cd libtgvoip
