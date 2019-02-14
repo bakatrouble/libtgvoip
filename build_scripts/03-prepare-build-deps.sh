@@ -16,7 +16,7 @@ if [ -f build_deps/gyp_main.py ]; then
 else
     echo "Downloading gyp..."
     git clone https://chromium.googlesource.com/external/gyp _tmp
-    mv _tmp/.git build_deps/.git
+    mv _tmp/.git build_deps
     cd build_deps
     git checkout a478c1ab51
     cd ..
