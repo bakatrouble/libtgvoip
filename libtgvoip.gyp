@@ -19,7 +19,7 @@
         'variables': {
           'tgvoip_src_loc': '.',
           'official_build_target%': '',
-          'libs_loc': '<(DEPTH)/../../Libraries',
+          'libs_loc': '<(DEPTH)/..',
         },
         'include_dirs': [
           '<(tgvoip_src_loc)/webrtc_dsp',
