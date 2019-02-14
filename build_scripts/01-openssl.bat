@@ -8,7 +8,7 @@ if "%PLATFORM%"=="x86" (
     set DO_MS_SCRIPT=ms\do_win64a.bat
 )
 
-if exist "openssl/%PREFIX%/lib/ssleay32.lib" goto ALREADY_BUILT
+if exist "openssl/Release/lib/ssleay32.lib" goto ALREADY_BUILT
 
 echo Building OpenSSL...
 git clone https://github.com/openssl/openssl.git

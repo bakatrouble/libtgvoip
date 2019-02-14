@@ -6,7 +6,7 @@ if "%PLATFORM%"=="x86" (
     set BUILD_PLATFORM=Win64
 )
 
-if exist "opus\win32\VS2015\Win32\%PREFIX%\opus.lib" goto ALREADY_BUILT
+if exist "opus\win32\VS2015\Win32\Release\opus.lib" goto ALREADY_BUILT
 
 echo Building Opus...
 git clone https://github.com/telegramdesktop/opus.git
