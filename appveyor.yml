@@ -5,7 +5,7 @@ branches:
     - msvc_static
 
 skip_tags: true
-max_jobs: 1
+max_jobs: 2
 
 image: Visual Studio 2017
 platform: x64
