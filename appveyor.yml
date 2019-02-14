@@ -15,3 +15,4 @@ platform: x86
 build_script:
   - sh build_scripts/01-openssl.sh
   - cmd: build_scripts/02-opus.bat
+  - sh build_scripts/03-prepare-build-deps.sh

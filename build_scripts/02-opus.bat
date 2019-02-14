@@ -1,8 +1,8 @@
 cd ..
 
-if exist "opus\win32\VS2015\Win32\Release\opus.lib" goto FINISH
+if exist "opus\win32\VS2015\Win32\Release\opus.lib" goto ALREADY_BUILT
 
-echo "Building Opus..."
+echo Building Opus...
 git clone https://github.com/telegramdesktop/opus.git
 cd opus
 git checkout tdesktop
@@ -14,4 +14,3 @@ goto FINISH
 echo "Opus is already built"
 
 :FINISH
-
