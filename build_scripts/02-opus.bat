@@ -3,7 +3,7 @@ cd ..
 if "%PLATFORM%"=="x86" (
     set BUILD_PLATFORM=Win32
 ) else (
-    set BUILD_PLATFORM=Win64
+    set BUILD_PLATFORM=x64
 )
 
 if exist "opus\win32\VS2015\Win32\Release\opus.lib" goto ALREADY_BUILT
