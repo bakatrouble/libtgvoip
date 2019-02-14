@@ -74,7 +74,7 @@
         'conditions': [
           [ 'target_arch=="x64"', {
             'msvs_configuration_platform': 'x64',
-          } ],
+          }],
         ],
         'configurations': {
           'Debug': {
@@ -97,8 +97,8 @@
               'VCLibrarianTool': {
                 'AdditionalOptions': [
                   '/NODEFAULTLIB:LIBCMT'
-                ]
-              }
+                ],
+              },
             },
           },
           'Release': {
@@ -119,15 +119,23 @@
                 'EnableIntrinsicFunctions': 'true',  # Yes (/Oi)
                 'FavorSizeOrSpeed': '1',             # Favor fast code (/Ot)
                 'RuntimeLibrary': '0',               # Multi-threaded (/MT)
-                'EnableEnhancedInstructionSet': '2', # Streaming SIMD Extensions 2 (/arch:SSE2)
                 'WholeProgramOptimization': 'true',  # /GL
               },
               'VCLibrarianTool': {
                 'AdditionalOptions': [
                   '/LTCG',
-                ]
+                ],
               },
             },
+            'conditions': [
+              [ 'target_arch=="ia32"', {
+                'msvs_settings': {
+                  'VCCLCompilerTool': {
+                    'EnableEnhancedInstructionSet': '2', # Streaming SIMD Extensions 2 (/arch:SSE2)
+                  },
+                },
+              }],
+            ],
           },
         },
         'sources': [
