@@ -37,6 +37,6 @@ build_script:
 after_build:
   - 7z a libtgvoip.dll.zip out/Release/libtgvoip.dll out/Release/libtgvoip.dll.lib
 
-artifacts:
-  - path: libtgvoip.dll.zip
-    name: libtgvoip.dll
+# artifacts:
+#   - path: libtgvoip.dll.zip
+#     name: libtgvoip.dll
