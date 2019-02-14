@@ -17,7 +17,7 @@ build_script:
   - sh build_scripts/01-openssl.sh
   - cmd: build_scripts/02-opus.bat
   - sh build_scripts/03-prepare-build-deps.sh
-  - cmd build_scripts/04-build.bat
+  - cmd: build_scripts/04-build.bat
 after_build:
   - 7z a libtgvoip.dll.zip out/Release/libtgvoip.dll out/Release/libtgvoip.dll.lib
 artifacts:
