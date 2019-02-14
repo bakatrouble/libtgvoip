@@ -8,7 +8,7 @@ if [ -f build_deps/ninja.exe ]; then
 else
     echo "Downloading Ninja..."
     curl -fsS https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip -o ninja.zip
-    7z x ninja.zip -o build_deps
+    7z x ninja.zip -obuild_deps
 fi
 
 if [ -f build_deps/gyp_main.py ]; then
