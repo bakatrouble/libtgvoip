@@ -7,7 +7,7 @@ if [ -f build_deps/ninja.exe ]; then
     echo "Ninja is already downloaded"
 else
     echo "Downloading Ninja..."
-    curl -fsS https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip -o ninja.zip
+    curl -fsSL https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip -o ninja.zip
     7z x ninja.zip -obuild_deps
 fi
 
