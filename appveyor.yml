@@ -35,8 +35,10 @@ build_script:
   - cmd: build_scripts/04-build.bat
 
 after_build:
-  - 7z a libtgvoip.dll.zip out/Release/libtgvoip.dll out/Release/libtgvoip.dll.lib
+  - cd out\Release
+  - 7z a libtgvoip.dll.zip libtgvoip.dll libtgvoip.dll.lib
+  - cd ..\..
 
 artifacts:
-  - path: libtgvoip.dll.zip
+  - path: out\Release\libtgvoip.dll.zip
     name: libtgvoip.dll
