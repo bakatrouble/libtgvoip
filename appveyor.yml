@@ -8,8 +8,8 @@ image: Visual Studio 2017
 clone_folder: c:\projects\libtgvoip
 shallow_clone: true
 cache:
-  - opus
-  - openssl
+  - ../opus
+  - ../openssl
 configuration: Release
 platform: x86
 build_script:
