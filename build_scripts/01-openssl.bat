@@ -7,7 +7,7 @@ git clone https://github.com/openssl/openssl.git
 cd openssl
 git checkout OpenSSL_1_0_1-stable
 perl Configure no-shared --prefix=%cd%\Release --openssldir=%cd%\Release VC-WIN32
-ms\do_ms.bat
+call ms\do_ms.bat
 nmake -f ms\nt.mak
 nmake -f ms\nt.mak install
 xcopy tmp32\lib.pdb Release\lib\
