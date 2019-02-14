@@ -8,8 +8,8 @@ cd opus
 git checkout tdesktop
 cd win32\VS2015
 msbuild opus.sln /property:Configuration=Release /property:Platform="Win32"
-goto FINISH
 cd ..\..\..
+goto FINISH
 
 :ALREADY_BUILT
 echo Opus is already built
