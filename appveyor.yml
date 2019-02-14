@@ -10,6 +10,7 @@ shallow_clone: true
 cache:
   - ../opus
   - ../openssl
+  - ../build_deps
 configuration: Release
 platform: x86
 build_script:
