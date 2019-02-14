@@ -71,6 +71,11 @@
           '-k0',
           '$(ProjectName)',
         ],
+        'conditions': [
+          [ 'target_arch=="x64"', {
+            'msvs_configuration_platform': 'x64',
+          } ],
+        ],
         'configurations': {
           'Debug': {
             'defines': [
