@@ -104,7 +104,7 @@
               '<(libs_loc)/openssl/Release/include',
             ],
             'library_dirs': [
-              '<(libs_loc)/opus/win32/VS2015/Win32/Release',
+              '<(libs_loc)/opus/win32/VS2015/<(opus_platform)/Release',
               '<(libs_loc)/openssl/Release/lib',
             ],
             'msvs_settings': {
