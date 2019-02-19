@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #endif
+#include <inttypes.h>
 #include <errno.h>
 #include <string.h>
 #include <wchar.h>
